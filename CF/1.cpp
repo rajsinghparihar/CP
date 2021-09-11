@@ -3,24 +3,66 @@ using namespace std;
 
 int main(void)
 {
-    int t;
-    cin >> t;
-    while (t--)
+    int n;
+    cin >> n;
+    vector<int> A(n);
+    for (int i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        int x = min(a, b);
-        long long int ans = 0;
-        if (b > a)
-            ans = (b - a) / 2 + 1;
-        else if (a % 2 != b % 2)
-            ans = (b - a) / 2;
-        else
-            ans = (b - a) / 2 + 1;
-
-        if (a == b)
-            ans = 0;
-        cout << ans << endl;
+        cin >> A[i];
     }
-    return 0;
+    stack<int> st;
+    vector<int> pos;
+    vector<int> ans(n);
+    vector<int> neg;
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i] < 0)
+        {
+            st.push(A[i] * A[i]);
+        }
+        else
+            pos.push_back(A[i] * A[i]);
+    }
+    while (!st.empty())
+    {
+        int x = st.top();
+        neg.push_back(x);
+        st.pop();
+    }
+    int j = 0;
+    int k = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (pos[k] < neg[j])
+        {
+            ans[i] = pos[k];
+            k++;
+        }
+        else
+        {
+            ans[i] = neg[j];
+            j++;
+        }
+    }
+    // if (m == pos.size())
+    // {
+    //     for (int i = m; i < max(pos.size(), neg.size()); i++)
+    //     {
+    //         ans[j] = neg[i];
+    //         j++;
+    //     }
+    // }
+    // if (m == neg.size())
+    // {
+    //     for (int i = m; i < max(pos.size(), neg.size()); i++)
+    //     {
+    //         ans[j] = pos[i];
+    //         j++;
+    //     }
+    // }
+    for (int i = 0; i < n; i++)
+    {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 }
